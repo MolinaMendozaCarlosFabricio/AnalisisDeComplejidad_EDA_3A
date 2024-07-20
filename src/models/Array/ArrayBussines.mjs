@@ -100,10 +100,8 @@ export default class ArrayBussines {
             return [];
         }
 
-        // Verificar el contenido del array
-        console.log("Contenido del array antes de ordenar:", arr);
+        //console.log("Contenido del array antes de ordenar:", arr);
 
-        // Filtrar elementos con valores válidos
         const filteredArr = arr.filter(item => typeof item.review_count === 'number' && !isNaN(item.review_count));
         if (filteredArr.length === 0) {
             console.error("Ningún elemento del array tiene un 'review_count' válido");
@@ -121,7 +119,7 @@ export default class ArrayBussines {
 
         let digit = 1;
         while (Math.floor(max / digit) > 0) {
-            console.log(`Ordenando por el dígito ${digit}`);
+            //console.log(`Ordenando por el dígito ${digit}`);
             arr = this.countingSortByDigit(arr, digit);
             digit *= 10;
         }
@@ -148,7 +146,7 @@ export default class ArrayBussines {
             }
         }
 
-        console.log(`Buckets para el dígito ${digit}:`, buckets);
+        //console.log(`Buckets para el dígito ${digit}:`, buckets);
 
         // Usar un bucle para concatenar los buckets en lugar de [].concat
         let result = [];
