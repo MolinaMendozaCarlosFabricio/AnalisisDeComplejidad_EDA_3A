@@ -4,6 +4,10 @@ export default class ArrayBussines {
     arrayMerge = [];
     arrayRadix = [];
 
+    iteracionesBurbuja = 0;
+    iteracionesMerge = 0;
+    iteracionesRadix = 0;
+
     insercionDelDataset() {
         console.log("Ejecutando lectura de bussines por array");
         fetch("./src/models/bussines.json")
@@ -48,20 +52,23 @@ export default class ArrayBussines {
     ejecutarAlgoritmoBurbuja() {
         console.log("Ejecutando algoritmo de burbuja");
         let arr = this.arrayBurbuja;
+        this.iteracionesBurbuja = 0;
         for (let i = 0; i < arr.length - 1; i++) {
             for (let j = 0; j < arr.length - 1 - i; j++) {
+                this.iteracionesBurbuja++;
                 if (arr[j].review_count > arr[j + 1].review_count) {
                     [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
                 }
             }
         }
-        console.log("Array ordenado con burbuja:");
+        console.log("Array ordenado con burbuja, iteraciones: " + this.iteracionesBurbuja);
     }
 
     ejecutarAlgoritmoMerge() {
         console.log("Ejecutando algoritmo merge sort");
+        this.iteracionesMerge = 0;
         let orderThisArray = this.mergeSort(this.arrayMerge);
-        console.log("Array ordenado con merge sort:");
+        console.log("Array ordenado con merge sort, iteraciones: " + this.iteracionesMerge);
     }
 
     mergeSort(arr) {
@@ -77,6 +84,7 @@ export default class ArrayBussines {
         let leftIndex = 0;
         let rightIndex = 0;
         while (leftIndex < left.length && rightIndex < right.length) {
+            this.iteracionesMerge++;
             if (left[leftIndex].review_count < right[rightIndex].review_count) {
                 result.push(left[leftIndex]);
                 leftIndex++;
@@ -90,8 +98,9 @@ export default class ArrayBussines {
 
     ejecutarAlgoritmoRadix() {
         console.log("Ejecutando algoritmo radix sort");
+        this.iteracionesRadix = 0;
         let arrayAOrdenar = this.radixSort(this.arrayRadix);
-        console.log("Array ordenado con radix sort:");
+        console.log("Array ordenado con radix sort, iteraciones: " + this.iteracionesRadix);
     }
 
     radixSort(arr) {
@@ -120,6 +129,7 @@ export default class ArrayBussines {
         let digit = 1;
         while (Math.floor(max / digit) > 0) {
             //console.log(`Ordenando por el dígito ${digit}`);
+            //this.iteracionesRadix++;
             arr = this.countingSortByDigit(arr, digit);
             digit *= 10;
         }
@@ -148,10 +158,10 @@ export default class ArrayBussines {
 
         //console.log(`Buckets para el dígito ${digit}:`, buckets);
 
-        // Usar un bucle para concatenar los buckets en lugar de [].concat
         let result = [];
         for (let i = 0; i < buckets.length; i++) {
             for (let j = 0; j < buckets[i].length; j++) {
+                this.iteracionesRadix++;
                 result.push(buckets[i][j]);
             }
         }

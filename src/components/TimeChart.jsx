@@ -8,10 +8,10 @@ const TimeChart = ({ title, categories, series }) => {
       toolbar: {
         show: false
       },
-      background: '#2c2c2c' // Fondo del gráfico en gris oscuro
+      background: '#2c2c2c'
     },
     xaxis: {
-      categories: categories,
+      categories: categories, 
       title: {
         text: 'Método'
       },
@@ -19,9 +19,9 @@ const TimeChart = ({ title, categories, series }) => {
         rotate: -45,
         style: {
           fontSize: '12px',
-          colors: '#ffffff' // Color de las etiquetas en blanco para contraste
+          colors: '#ffffff'
         },
-        offsetX: 0 // Ajusta la posición horizontal de las etiquetas
+        offsetX: 0
       },
       tickPlacement: 'on'
     },
@@ -29,13 +29,16 @@ const TimeChart = ({ title, categories, series }) => {
       title: {
         text: 'Tiempo (mls)',
         style: {
-          color: '#ffffff' // Color del título en blanco
+          color: '#ffffff'
         }
       },
       labels: {
-        formatter: (value) => `${value.toFixed(0)}mls`,
+        formatter: (value) => {
+          // AQUI: Maneja valores null o undefined
+          return value !== null && value !== undefined ? `${value.toFixed(2)}mls` : 'N/A';
+        },
         style: {
-          colors: '#ffffff' // Color de las etiquetas en blanco
+          colors: '#ffffff'
         }
       }
     },
@@ -43,19 +46,18 @@ const TimeChart = ({ title, categories, series }) => {
       text: title,
       align: 'center',
       style: {
-        color: '#ffffff' // Color del título en blanco
+        color: '#ffffff'
       }
     },
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: '60%',
-        distributed: true,
         endingShape: 'flat',
         dataLabels: {
           position: 'top',
           style: {
-            colors: ['#ffffff'] // Color de las etiquetas de datos en blanco
+            colors: ['#ffffff']
           }
         }
       }
@@ -64,46 +66,42 @@ const TimeChart = ({ title, categories, series }) => {
       enabled: true,
       offsetY: -10,
       style: {
-        colors: ['#ffffff'] // Color de las etiquetas de datos en blanco
+        colors: ['#ffffff']
       }
     },
     grid: {
       show: true,
-      borderColor: '#444', // Color de la cuadrícula en gris oscuro
+      borderColor: '#444',
       strokeDashArray: 4,
       row: {
-        colors: ['#2c2c2c', 'transparent'], // Alternar colores de las filas
+        colors: ['#2c2c2c', 'transparent'],
         opacity: 0.5
       },
       column: {
-        colors: ['#2c2c2c', 'transparent'], // Alternar colores de las columnas
+        colors: ['#2c2c2c', 'transparent'],
         opacity: 0.5
       }
     },
-    colors: ['#ff6347', '#4caf50', '#00bcd4', '#ff9800', '#9c27b0', '#3f51b5'] // Colores de las barras
+    colors: ['#ff6347', '#4caf50', '#00bcd4', '#ff9800', '#9c27b0', '#3f51b5'],
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left',
+      floating: true,
+      offsetY: -25,
+      labels: {
+        colors: '#ffffff'
+      }
+    }
   };
-
-  const isValidSeries = (series) => {
-    return series.every(s => s.data && s.data.every(d => d !== undefined));
-  };
-
-  console.log('Options:', options);
-  console.log('Series:', series);
 
   return (
     <div className="chart">
-      <div>
-        {isValidSeries(series) ? (
-          <Chart
-            options={options}
-            series={series}
-            type="bar"
-            height={350}
-          />
-        ) : (
-          <div>Error: Datos inválidos</div>
-        )}
-      </div>
+      <Chart
+        options={options}
+        series={series} // AQUI: Coloca las series de datos
+        type="bar"
+        height={350}
+      />
     </div>
   );
 };

@@ -6,6 +6,10 @@ export default class LinkedListBussines {
     ordenarMerge = new ListaEnlazada();
     ordenarRadix = new ListaEnlazada();
 
+    iteracionesDeBurbuja = 0;
+    iteracionesDeMerge = 0;
+    iteracionesDeRadix = 0;
+
     insercionDelDataset (){
         console.log("Ejecutando lectura de bussines por array");
         fetch("./src/models/bussines.json")
@@ -61,16 +65,22 @@ export default class LinkedListBussines {
 
     ejecutarAlgoritmoBurbuja(){
         this.ordenarBurbuja.burbbleSort();
+        console.log("Iteraciones del algoritmo de burbuja en linked list: " + this.ordenarBurbuja.iteracionesBurbuja)
+        this.iteracionesDeBurbuja = this.ordenarBurbuja.iteracionesBurbuja;
         //this.impresionDelDataset(this.ordenarBurbuja);
     }
 
     ejecutarAlgoritmoMerge (){
         this.ordenarMerge.mergeSort();
+        console.log("Iteraciones del algoritmo de Merge en linked list: " + this.ordenarMerge.iteracionesMerge)
+        this.iteracionesDeMerge = this.ordenarMerge.iteracionesMerge;
         //this.impresionDelDataset(this.ordenarMerge);
     }
 
     ejecutarAlgoritmoRadix(){
         this.ordenarRadix.radixSort();
+        console.log("Iteraciones del algoritmo de Radix en linked list: " + this.ordenarRadix.iteracionesRadix)
+        this.iteracionesDeRadix = this.ordenarRadix.iteracionesRadix;
         //this.impresionDelDataset(this.ordenarRadix);
     }
 }

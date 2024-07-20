@@ -5,6 +5,10 @@ export default class ListaEnlazada {
   #head;
   #tail;
 
+  iteracionesBurbuja = 0;
+  iteracionesMerge = 0;
+  iteracionesRadix = 0;
+
   constructor() {
     this.#count = 0;
     this.#head = undefined;
@@ -73,6 +77,7 @@ export default class ListaEnlazada {
 
     current = this.#head;
     while (current != null) {
+      this.iteracionesRadix++;
       let index = Math.floor(current.value.review_count / exp) % 10;
       output[count[index] - 1] = current;
       count[index]--;
@@ -87,6 +92,7 @@ export default class ListaEnlazada {
   }
 
   radixSort() {
+    this.iteracionesRadix = 0;
     let max = this.getMax();
     let exp = 1;
     while (Math.floor(max / exp) > 0) {
@@ -97,12 +103,14 @@ export default class ListaEnlazada {
 
   // Burbuja
   burbbleSort() {
+    this.iteracionesBurbuja = 0;
     let bandera;
     let current;
     do {
       bandera = false;
       current = this.#head;
       while (current != null && current.next != null) {
+        this.iteracionesBurbuja++;
         if (current.value.review_count > current.next.value.review_count) {
           let temp = current.value;
           current.value = current.next.value;
@@ -116,6 +124,7 @@ export default class ListaEnlazada {
 
   // Merge
   mergeSort() {
+    this.iteracionesMerge = 0;
     if (this.#head == null || this.#head.next == null) {
         return this; // La lista ya está ordenada
     }
@@ -165,6 +174,7 @@ export default class ListaEnlazada {
     current = result;
 
     while (left != null && right != null) {
+        this.iteracionesMerge++;
         if (left.value.review_count <= right.value.review_count) {
             current.next = left;
             left = left.next;
