@@ -17,20 +17,15 @@ export default class LinkedListBussines {
             })
             .then(dataReceive => {
                 //console.log("Datos recibidos:", dataReceive);
-                for(let i = 0; i < 50000/*dataReceive.length*/; i++){
+                for(let i = 0; i < dataReceive.length && i < 25000; i++){
                     //console.log("Insertando: " + dataReceive[i]);
                     this.listaEnlazada.push(dataReceive[i]);
-                    //console.log(this.listaEnlazada.getElementAt(i).value)
-                    //this.impresionDelDataset();
-                }
-
-                for (let i = 0; i < 50000/*dataReceive.length*/; i++){
                     this.ordenarBurbuja.push(dataReceive[i]);
                     this.ordenarMerge.push(dataReceive[i]);
                     this.ordenarRadix.push(dataReceive[i]);
+                    //console.log(this.listaEnlazada.getElementAt(i).value)
+                    //this.impresionDelDataset();
                 }
-
-                //this.impresionDelDataset(this.ordenarRadix)
             })
             .catch(error => console.error("Error al extraer datos:", error));
     }
@@ -49,10 +44,10 @@ export default class LinkedListBussines {
         //console.log(parametroBusqueda)
         let bandera = false;
         for(let i = 0; i < this.listaEnlazada.size(); i++){
-            console.log(i)
+            //console.log(i)
             const element = this.listaEnlazada.getElementAt(i);
             //console.log("Buscando elemento en el nodo " + i)
-            if(element.value.business == parametroBusqueda){
+            if(element.value.business === parametroBusqueda){
                 console.log("Elemento encontrado: " + element.value.name);
                 //No se si haya que mandar el elemento encontrado
                 bandera = true;
@@ -65,7 +60,6 @@ export default class LinkedListBussines {
     }
 
     ejecutarAlgoritmoBurbuja(){
-
         this.ordenarBurbuja.burbbleSort();
         //this.impresionDelDataset(this.ordenarBurbuja);
     }

@@ -3,22 +3,22 @@ import Node from "./Node.mjs";
 export default class ListaEnlazada {
   #count;
   #head;
+  #tail;
 
   constructor() {
     this.#count = 0;
-    this.#head = null;
+    this.#head = undefined;
+    this.#tail = undefined;
   }
 
   push(value) {
     const node = new Node(value);
     if (this.#head == null) {
       this.#head = node;
+      this.#tail = node;
     } else {
-      let current = this.#head;
-      while (current.next != null) {
-        current = current.next;
-      }
-      current.next = node;
+      this.#tail.next = node;
+      this.#tail = node;
     }
     this.#count++;
   }
@@ -42,8 +42,7 @@ export default class ListaEnlazada {
     return this.#count;
   }
 
-  // Método para obtener el valor máximo de postal_code
-  
+  // Método para obtener el valor máximo
   getMax() {
     if (this.#head == null) return null;
     let max = this.#head.value.review_count;
@@ -62,19 +61,16 @@ export default class ListaEnlazada {
     let count = new Array(10).fill(0);
     let current = this.#head;
 
-    // Contar ocurrencias de dígitos
     while (current != null) {
       let index = Math.floor(current.value.review_count / exp) % 10;
       count[index]++;
       current = current.next;
     }
 
-    // Cambio en count[i] para que contenga posiciones finales de los dígitos
     for (let i = 1; i < 10; i++) {
       count[i] += count[i - 1];
     }
 
-    // Construir output array
     current = this.#head;
     while (current != null) {
       let index = Math.floor(current.value.review_count / exp) % 10;
@@ -83,12 +79,11 @@ export default class ListaEnlazada {
       current = current.next;
     }
 
-    // Reconstruir la lista enlazada con los elementos ordenados
     for (let i = output.length - 1; i > 0; i--) {
       output[i].next = output[i - 1];
     }
-    output[0].next = null; // Asegurarse de que el último nodo no apunte a nada
-    this.#head = output[output.length - 1]; // El primer elemento del array es ahora el head de la lista enlazada
+    output[0].next = null; 
+    this.#head = output[output.length - 1]; 
   }
 
   radixSort() {
@@ -100,7 +95,6 @@ export default class ListaEnlazada {
     }
   }
 
-  // Otros métodos de ordenamiento...
   // Burbuja
   burbbleSort() {
     let bandera;
@@ -123,7 +117,7 @@ export default class ListaEnlazada {
   // Merge
   mergeSort() {
     if (this.#head == null || this.#head.next == null) {
-      return this;
+        return this; // La lista ya está ordenada
     }
 
     const middle = this.getMiddle(this.#head);
@@ -142,38 +136,52 @@ export default class ListaEnlazada {
   }
 
   getMiddle(head) {
-    if (head == null) {
-      return head;
-    }
+    if (head == null) return head;
 
     let slow = head;
     let fast = head;
+
     while (fast.next != null && fast.next.next != null) {
-      slow = slow.next;
-      fast = fast.next.next;
+        slow = slow.next;
+        fast = fast.next.next;
     }
     return slow;
   }
 
   merge(left, right) {
     let result = null;
+    let current = null;
 
-    if (left == null) {
-      return right;
-    }
-
-    if (right == null) {
-      return left;
-    }
+    if (left == null) return right;
+    if (right == null) return left;
 
     if (left.value.review_count <= right.value.review_count) {
-      result = left;
-      result.next = this.merge(left.next, right);
+        result = left;
+        left = left.next;
     } else {
-      result = right;
-      result.next = this.merge(left, right.next);
+        result = right;
+        right = right.next;
+    }
+    current = result;
+
+    while (left != null && right != null) {
+        if (left.value.review_count <= right.value.review_count) {
+            current.next = left;
+            left = left.next;
+        } else {
+            current.next = right;
+            right = right.next;
+        }
+        current = current.next;
+    }
+
+    if (left != null) {
+        current.next = left;
+    } else {
+        current.next = right;
     }
 
     return result;
   }
+
 }

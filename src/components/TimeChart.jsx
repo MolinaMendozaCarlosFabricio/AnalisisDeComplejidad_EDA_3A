@@ -27,13 +27,13 @@ const TimeChart = ({ title, categories, series }) => {
     },
     yaxis: {
       title: {
-        text: 'Tiempo (ns)',
+        text: 'Tiempo (mls)',
         style: {
           color: '#ffffff' // Color del título en blanco
         }
       },
       labels: {
-        formatter: (value) => `${value.toFixed(0)}ns`,
+        formatter: (value) => `${value.toFixed(0)}mls`,
         style: {
           colors: '#ffffff' // Color de las etiquetas en blanco
         }
